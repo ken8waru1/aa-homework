@@ -32,21 +32,30 @@ class Board
     i = start_pos
     until distributed_stones.empty?
       i += 1
-      i = 0 if i == 13
-      if i == 6 && current_player_name == @name1
-        @cups[6] << distributed_stones.shift
-      elsif i == 13 && current_player_name == @name2
-        @cups[13] << distributed_stones.shift
+      i = 0 if i > @cups.length - 1
+
+      if i == 6
+        @cups[6] << distributed_stones.shift if current_player_name == @name1
+      elsif i == 13
+        @cups[13] << distributed_stones.shift if current_player_name == @name2
       else
         @cups[i] << distributed_stones.shift
       end
     end
+
     render
     next_turn(i)
   end
 
   def next_turn(ending_cup_idx)
     # helper method to determine whether #make_move returns :switch, :prompt, or ending_cup_idx
+    if ending_cup_idx == 6 || ending_cup_idx == 13
+      :prompt
+    elsif @cups[ending_cup_idx].length == 1
+      :switch
+    else
+      ending_cup_idx
+    end
   end
 
   def render
@@ -58,8 +67,18 @@ class Board
   end
 
   def one_side_empty?
+    @cups[0..6].all? { |cup| cup.empty? } || @cups[7..-1].all? { |cup| cup.empty? } 
   end
 
   def winner
+    prc = Proc.new { |a, b| a <=> b } 
+    case prc.call(@cups[6], @cups[13])
+    when 0 
+      :draw
+    when 1
+      @name1
+    when - 1
+      @name2
+    end
   end
 end
