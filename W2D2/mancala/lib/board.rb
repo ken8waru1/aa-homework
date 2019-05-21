@@ -26,19 +26,23 @@ class Board
   end
 
   def make_move(start_pos, current_player_name)
+    distributed_stones = @cups[start_pos]
+    @cups[start_pos] = []
 
     i = start_pos
-    until @cups[start_pos].empty?
+    until distributed_stones.empty?
       i += 1
       i = 0 if i == 13
       if i == 6 && current_player_name == @name1
-        @cups[6] << @cups[start_pos].shift
+        @cups[6] << distributed_stones.shift
       elsif i == 13 && current_player_name == @name2
-        @cups[13] << @cups[start_pos].shift
+        @cups[13] << distributed_stones.shift
       else
-        @cups[i] << @cups[start_pos].shift
+        @cups[i] << distributed_stones.shift
       end
-    end 
+    end
+    render
+    next_turn(i)
   end
 
   def next_turn(ending_cup_idx)
