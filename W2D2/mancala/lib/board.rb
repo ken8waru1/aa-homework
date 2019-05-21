@@ -4,11 +4,8 @@ class Board
   def initialize(name1, name2)
     @name1 = name1
     @name2 = name2
-    @cups = Array.new(14) { Array.new }.each.with_index do |cup, i|
-      unless i == 6 || i == 13
-        4.times { cup << :stone } 
-      end
-    end
+    @cups = Array.new(14) { Array.new }
+    place_stones
   end
 
   def place_stones
