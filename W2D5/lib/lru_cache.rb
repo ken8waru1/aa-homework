@@ -1,5 +1,5 @@
   class LRUCache
-    attr_reader :cache, :size
+    attr_reader :cache, :capacity
 
     def initialize(capacity)
       @capacity = capacity
@@ -14,11 +14,9 @@
     def add(el)
       # adds element to cache according to LRU principle
       if cache.include?(el)
-        cache.delete(el)
-        cache << el
-      elsif cache.size == size 
-        cache.shift
-        cache << el
+        update_to_recent(el)
+      elsif cache.size == capacity
+        update(el)
       else
         cache << el
       end
@@ -26,9 +24,17 @@
 
     def show
       # shows the items in the cache, with the LRU item first
+      cache
     end
 
     private
-    # helper methods go here!
+    def update_to_recent(el)
+      cache.delete(el)
+      cache << el
+    end
 
+    def update(el)
+      cache.shift
+      cache << el
+    end
   end
