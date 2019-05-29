@@ -1,3 +1,3 @@
-class Person <ActiveRecord::Base
-  
+class Person < ActiveRecord::Base
+  validate :name, :house_id, prescence: true
 end
