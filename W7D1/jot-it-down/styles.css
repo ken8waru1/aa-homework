@@ -1,0 +1,17 @@
+.nav-bar {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  background-color: cornflowerblue
+}
+
+.site-nav {
+  float: left;
+}
+
+.user-nav {
+  float: left;
+}
+
+
+
